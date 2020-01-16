@@ -103,8 +103,10 @@ public class UDF
 	{
 		String filename = "";
 		String year, month, day, hour, minute, second = "";
-		//Date date = new Date();
 		Calendar calendar = Calendar.getInstance();
+		
+		//DynamicConfiguration conf1 = (DynamicConfiguration) container.getTransformationParameters().get(StreamTransformationConstants.DYNAMIC_CONFIGURATION);
+		//DynamicConfigurationKey key1 = DynamicConfigurationKey.create("http://sap.com/xi/XI/System/File","FileName");
 		
 		year = String.valueOf( calendar.get(Calendar.YEAR) );
 		
@@ -118,19 +120,20 @@ public class UDF
 		
 		hour = String.valueOf( calendar.get(Calendar.HOUR_OF_DAY) );
 		if( hour.length() < 2 )
-			hour = "0" + day;
+			hour = "0" + hour;
 		
 		minute = String.valueOf( calendar.get(Calendar.MINUTE));
 		if( minute.length() < 2 )
-			minute = "0" + day;
+			minute = "0" + minute;
 		
 		second = String.valueOf( calendar.get(Calendar.SECOND));
 		if( second.length() < 2 )
-			second = "0" + day;
+			second = "0" + second;
 		
 		
 		filename = "Precios_" + year+month+day+"-"+hour+minute+second + "_" + numIdoc + ".txt";
-
+		
+		//conf1.put(key1, filename);
 
 		return filename;
 	}
