@@ -16,8 +16,123 @@ public class UDF
 		//System.out.println( setFileName("0000000246367027") );
 		//System.out.println( substringFromRight("0000000246367027", 3) );
 		//System.out.println( removeDecimals("55.123") );
-		System.out.println( substringUDF("", 1, 5) );
+		//System.out.println( substringUDF("", 1, 5) );
+		//System.out.println( getASMA("http://sap.com/xi/XI/System/REST", "Authorization","BS_XXCLNTXX" , 5) );
+		//System.out.println( formatDate("09/04/2021 00:00:00") );
+		//System.out.println( formatTime("09/04/2021 00:00:00") );
+		//System.out.println( removeLeadingZero("000000000000177483") );
+		//System.out.println( formatIdtnrArticulo("9233") );
+		//System.out.println( formatIdtnrArticulo("000000000000199233") );
+		//System.out.println( replaceDots("0.12") );
+		//System.out.println( getSAPDate("20210427") );
+		System.out.println( getSAPDateAndTime("20210426 135157") );
 	}
+	
+	private static String getSAPDateAndTime(String date)
+	{
+		String year = date.substring(0, 4);
+		String month = date.substring(4, 6);
+		String day = date.substring(6, 8);
+		String hour = date.substring(9, 11);
+		String minute = date.substring(11, 13);
+		String second = date.substring(13, 15);
+		
+		return day + "/" + month + "/" + year + " " + hour + ":" + minute + ":" + second;
+	}
+	
+	private static String getSAPDate(String date)
+	{
+		String year = date.substring(0, 4);
+		String month = date.substring(4, 6);
+		String day = date.substring(6, 8);
+		
+		return day + "/" + month + "/" + year;
+	}
+	
+	private static String replaceDots(String value)
+	{
+		return value.replaceFirst("\\.", ",");
+	}
+	
+	private static String formatIdtnrArticulo(String idtnr)
+	{
+		// Si tiene menos de 6 caracteres, se le añaden 0 a la izquierda
+		if( idtnr.length() < 6 )
+		{
+			idtnr = String.format("%06d", Integer.parseInt(idtnr));
+		}
+		// Si tiene mas de 6 caracteres, se le quitan caracteres a la izquierda
+		else if( idtnr.length() > 6 )
+		{
+			idtnr = idtnr.substring( ( idtnr.length()-6 ), idtnr.length() );
+		}
+		
+		return idtnr;
+	}
+	
+	// Elimina los ceros a la izquierda
+	private static String removeLeadingZero(String value) //Copied from github
+	{
+		String valueWithoutZeros = "";
+		try
+		{
+			valueWithoutZeros = value.replaceFirst("^0+", "");
+		}
+		catch(Exception ee)
+		{
+			valueWithoutZeros = value;
+		}
+		
+		return valueWithoutZeros;
+	}
+	
+	private static String formatDate(String date) //20210409
+	{
+		String year = date.substring(6, 10);
+		String month = date.substring(3, 5);
+		String day = date.substring(0, 2);
+		
+		return year+month+day;
+	}
+	
+	private static String formatTime(String date)
+	{
+		return date.substring(11, 19);
+	}
+	
+	private static String getASMA(String namespace, String attribute, String receiver, int tokenTimeout)
+	{
+		String ret = null; 
+		String AuthorizationHeader = "Bearer ijafoaifoajfklfjdlf_161359";
+
+		// Calcula fecha actual
+		Calendar ahoraCal = Calendar.getInstance();
+		int diaHoy = ahoraCal.get(Calendar.DAY_OF_MONTH);
+		int horaHoy = ahoraCal.get(Calendar.HOUR_OF_DAY);
+		int minHoy = ahoraCal.get(Calendar.MINUTE);
+		
+		// Calcula fecha del token
+		int diaToken = Integer.parseInt(AuthorizationHeader.substring(AuthorizationHeader.length()-6, AuthorizationHeader.length()-4));
+		int horaToken = Integer.parseInt(AuthorizationHeader.substring(AuthorizationHeader.length()-4, AuthorizationHeader.length()-2));
+		int minToken = Integer.parseInt(AuthorizationHeader.substring(AuthorizationHeader.length()-2));
+		
+		// Validar "Bearer ijafoaifoajfklfjdlf071921"
+		// Si diaHoy == AuthorizationHeader(size-6, size-4)
+		// Si horaHoy == AuthorizationHeader(size-4, size-2)
+		// Si minHoy == AuthorizationHeader(size-2, size)
+		// SI minHoy == franja
+		   // ret = receiver;
+
+		System.out.println(diaToken);
+		System.out.println(horaToken);
+		System.out.println(minToken);
+		
+		// Si minHoy < tokenTimeout
+			// minHoy = minHoy + tokenTimeout
+		
+		return ret;
+	}
+	
 	
 	private static String substringUDF(String textIn, int beginIndex, int endIndex)
 	{
